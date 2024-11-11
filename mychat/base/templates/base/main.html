@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>myChat</title>
+  
+  <!-- Use the static template tag to properly link the CSS file -->
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
+</head>
+<body>
+  {% block content %}
+  {% endblock content %}
+</body>
+</html>
