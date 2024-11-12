@@ -20,7 +20,7 @@
 
             <div class="form-field">
                 <label>Name</label>
-                <input type="text" name="room" placeholder="Enter username..."/>
+                <input type="text" name="username" placeholder="Enter username..."/>
             </div>
 
             <div class="form-field">
@@ -30,7 +30,40 @@
     </section>
 </main>
 
-<script src="https://download.agora.io/sdk/release/AgoraRTC_N-4.22.2.js"></script>
+<script type="text/javascript">
+
+    let form = document.getElementById('form')
+
+    let handleSubmit = async (e) => {
+    e.preventDefault()
+    let room = e.target.room.value.toUpperCase()
+    let name = e.target.username.value
+
+    // Fetch the token from the server
+    let response = await fetch(`/get_token/?channel=${room}`)
+    let data = await response.json()  // Make sure to convert the response to JSON
+
+    // Check if data is valid before accessing properties
+    if (data && data.uid && data.token) {
+        let UID = data.uid
+        let token = data.token
+
+        sessionStorage.setItem('UID', UID)
+        sessionStorage.setItem('token', token)
+        sessionStorage.setItem('room', room)
+        sessionStorage.setItem('name', name)
+
+        // Redirect to the room page
+        window.open('/room/', '_self')
+    } else {
+        console.error('Failed to fetch token data:', data);
+    }
+}
+
+
+</script>
+<script type="text/javascript" src="{% static 'assets/AgoraRTC_N-4.8.1.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static 'js/stream.js' %}"></script> -->
 <script type="text/javascript" src="{% static 'js/stream.js' %}"></script>
     
 {% endblock content %}
